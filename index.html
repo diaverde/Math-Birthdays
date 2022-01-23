@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css"
+    integrity="sha512-TQQ3J4WkE/rwojNFo6OJdyu6G8Xe9z8rMrlF9y7xpFbQfW5g8aSWcygCQ4vqRiJqFsDsE1T6MoAOMJkFXlrI9A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    .row-header {
+      margin: 0px auto;
+      padding: 0px;
+    }
+
+    .row-content {
+      margin: 0px auto;
+      padding: 10px 0px;
+      min-height: 200px;
+    }
+
+    .footer {
+      margin: 0px auto;
+      padding: 20px 0px 20px 0px;
+    }
+
+    .jumbotron {
+      padding: 80px 30px;
+      margin: 0px auto;
+      background: #9575CD;
+      color: floralwhite;
+    }
+
+    body {
+      padding: 50px 0px 0px 0px;
+    }
+
+    .navbar-light {
+      background-color: #CCDD77;
+    }
+
+    img {
+      max-height: 200px;
+    }
+
+    #bdPic {
+      visibility: hidden;
+    }
+  </style>
+
+  <title>Math Birthdays</title>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-light navbar-expand-sm fixed-top">
+    <div class="container">
+      <a class="nav-link" href="#">mathbirthdays.com</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="jumbotron">
+    <div class="container">
+      <div class="row row-header">
+        <div class="col-12 col-sm-6">
+          <h1>Welcome to MathBirthdays</h1>
+          <p>Do you want to know how "math-old" are you?</p>
+          <p>And when is your next math birthday?</p>
+        </div>
+        <div class="col-12 col-sm-6 align-self-center">
+          <a role="button" class="btn btn-lg btn-warning" id="datepicker">Select your birthday</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="row row-content align-items-center">
+      <div class="col-12">
+        <h3 class="text-center" id="result">
+        </h3>
+      </div>
+      <div class="col-12" id="bdPic">
+        <img src="https://images.appypie.com/wp-content/uploads/2020/10/01072651/birthday-website-builder.svg"
+          alt="Birthday" class="img-fluid mx-auto d-block" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <p>© Copyright 2022 AFSV</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <!-- Minified JS library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  <script>
+    let messageField = $("#result");
+    let bdPicField = $("#bdPic");
+
+    $(document).ready(function () {
+      $("#datepicker").datepicker({
+        autoclose: true
+      }).on("changeDate", function (e) {
+        let chosenDate = $(this).datepicker('getDate');
+        processDate(chosenDate);
+      });
+    });
+
+    // Function to compute Math Birthday and produce the message
+    function processDate(date) {
+      let millsToBD = date.getTime();
+      let millsToday = Date.parse(new Date().toDateString());
+      let result;
+      if (millsToBD < millsToday) {
+        let millsPerDay = 1000 * 60 * 60 * 24;
+        let daysFromBD = Math.round((millsToday - millsToBD) / millsPerDay);
+        let currentMathAge = Math.trunc(Math.log10(daysFromBD));
+        let remainingDaysNextBD = 10 ** (currentMathAge + 1) - daysFromBD;
+        let nextBD = new Date();
+        nextBD.setTime(remainingDaysNextBD * millsPerDay + millsToday);
+        result = `Your next math birthday is your ${currentMathAge + 1}-day-old
+        birthday on ${nextBD.toDateString()}`;
+        bdPicField.css("visibility", "visible");
+      } else {
+        result = `Please insert a valid birthday`;
+        $("#bdPic").css("visibility", "hidden");
+      }
+      messageField.text(result);
+    }
+  </script>
+
+</body>
+
+</html>
