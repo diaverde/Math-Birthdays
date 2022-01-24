@@ -10,4 +10,7 @@ page shows your next upcoming math birthday.
 ## Technical aspects
 The site is a single html file with no assets. All css and javascript is inline or
 hosted in publicly accessible locations elsewhere (like jquery or other frameworks).
-It uses Bootstrap as a support framework for styling.
+It uses Bootstrap as a support framework for styling. The site is responsive as well.
+
+## Where to visit it
+The site is published at (https://diaverde.github.io/Math-Birthdays/)
